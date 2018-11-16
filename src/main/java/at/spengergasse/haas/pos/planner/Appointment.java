@@ -8,13 +8,13 @@ public class Appointment {
     private String title;
     private int priority;
     private LocalDate date;
-    private boolean solved;
+    Patient patient;
+
 
     public Appointment() {
         this.title = title;
         this.priority = priority;
         this.date = date;
-        this.solved = solved;
     }
 
     public String getTitle() {
@@ -41,16 +41,26 @@ public class Appointment {
         this.date = date;
     }
 
-    public boolean isSolved() {
-        return solved;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setSolved(boolean solved) {
-        this.solved = solved;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
-    public void makeAppointment(String title, int priority, LocalDate date){
-        System.out.println(title+" "+priority+" "+date);
+    public void makeAppointment(String title, int priority, LocalDate date, Patient patient){
+        setTitle(title);
+        setPriority(priority);
+        setDate(date);
+        setPatient(patient);
 
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment Information:\n Title: "+getTitle()+ " \n Priority: "+getPriority()+" \n Date: "+getDate()+" \n Patient: "+patient.toString();
     }
 }

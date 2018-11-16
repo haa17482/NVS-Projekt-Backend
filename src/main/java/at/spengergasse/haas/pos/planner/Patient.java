@@ -1,20 +1,20 @@
 package at.spengergasse.haas.pos.planner;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Patient {
     private String firstname;
     private String sirname;
-    private Date birthday;
+    private LocalDate birthday;
     private int age;
-    private boolean man;
+    Type type;
 
-    public Patient(String firstname, String sirname, Date birthday, int age, boolean man) {
+    public Patient() {
         this.firstname = firstname;
         this.sirname = sirname;
         this.birthday = birthday;
         this.age = age;
-        this.man = man;
+        this.type = type;
     }
 
     public String getFirstname() {
@@ -33,11 +33,11 @@ public class Patient {
         this.sirname = sirname;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -49,13 +49,26 @@ public class Patient {
         this.age = age;
     }
 
-    public boolean isMan() {
-        return man;
+    public Type getType() {
+        return type;
     }
 
-    public void setMan(boolean man) {
-        this.man = man;
+    public void setType(Type type) {
+        this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "Patient Information:\n  Firstname: "+getFirstname()+ " \n  Sirname: "+getSirname()+" \n  Birthday: "+getBirthday()+" \n  Age: "+getAge()+" \n  Type: "+getType();
 
+    }
+
+    public void createPatient(String firstname, String sirname, LocalDate birthday, int age, Type type){
+        setFirstname(firstname);
+        setSirname(sirname);
+        setBirthday(birthday);
+        setAge(age);
+        setType(type);
+
+    }
 }

@@ -4,15 +4,20 @@ import java.time.LocalDate;
 
 public class Planner
 {
-
-
-
     public static void main(String [] args){
-    System.out.println("Hello there....General Kenobi!");
-    System.out.println("You probably didnt recognize me, because of my red arm!");
-    System.out.println("Jason Bourne! It´s Jesus Christ!");
+        Patient p1= new Patient();
+        p1.createPatient("Sebastian", "Haas", LocalDate.of(2000,11,18), 17, Type.BOY);
+        AppointmentList al= new AppointmentList();
+        Appointment appointment= new Appointment();
+        Appointment appointment2= new Appointment();
 
-    Appointment a= new Appointment();
-    a.makeAppointment("Test", 1, new LocalDate.of(2018,5,10));
+
+        appointment.makeAppointment("Test", 1, LocalDate.of(2018,12,10), p1);
+        appointment2.makeAppointment("dhfjsdfhsgfusb", 0, LocalDate.of(2018,12,10),p1);
+
+        al.add(appointment);
+        al.add(appointment2);
+        al.listAppointemnts();
     }
+
 }
