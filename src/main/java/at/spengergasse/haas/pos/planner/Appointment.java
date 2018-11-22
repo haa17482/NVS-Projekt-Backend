@@ -1,6 +1,7 @@
 package at.spengergasse.haas.pos.planner;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class Appointment {
@@ -61,6 +62,10 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appointment Information:\n Title: "+getTitle()+ " \n Priority: "+getPriority()+" \n Date: "+getDate()+" \n Patient: "+patient.toString();
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d.MM.uuuu");
+        String text = getDate().format(formatters);
+        LocalDate parsedDate = LocalDate.parse(text, formatters);
+
+        return "Appointment Information:\n Title: "+getTitle()+ " \n Priority: "+getPriority()+" \n Date: "+parsedDate.format(formatters)+" \n Patient: "+patient.toString();
     }
 }

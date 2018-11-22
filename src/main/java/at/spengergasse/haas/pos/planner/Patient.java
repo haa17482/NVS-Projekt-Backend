@@ -1,6 +1,7 @@
 package at.spengergasse.haas.pos.planner;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Patient {
     private String firstname;
@@ -57,11 +58,7 @@ public class Patient {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Patient Information:\n  Firstname: "+getFirstname()+ " \n  Sirname: "+getSirname()+" \n  Birthday: "+getBirthday()+" \n  Age: "+getAge()+" \n  Type: "+getType();
 
-    }
 
     public void createPatient(String firstname, String sirname, LocalDate birthday, int age, Type type){
         setFirstname(firstname);
@@ -69,6 +66,14 @@ public class Patient {
         setBirthday(birthday);
         setAge(age);
         setType(type);
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d.MM.uuuu");
+        String text = getBirthday().format(formatters);
+        LocalDate parsedDate = LocalDate.parse(text, formatters);
+        return "Patient Information:\n  Firstname: "+getFirstname()+ " \n  Sirname: "+getSirname()+" \n  Birthday: "+parsedDate.format(formatters)+" \n  Age: "+getAge()+" \n  Type: "+getType();
 
     }
 }
