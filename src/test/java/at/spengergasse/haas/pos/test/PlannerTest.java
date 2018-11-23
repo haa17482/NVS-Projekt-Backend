@@ -1,11 +1,19 @@
-package at.spengergasse.haas.pos.planner;
+package at.spengergasse.haas.pos.test;
+
+import at.spengergasse.haas.pos.planner.Appointment;
+import at.spengergasse.haas.pos.planner.AppointmentList;
+import at.spengergasse.haas.pos.planner.Patient;
+import at.spengergasse.haas.pos.planner.Type;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-public class Planner
-{
-    public static void main(String [] args){
-       /* Patient p1= new Patient();
+import static org.junit.jupiter.api.Assertions.*;
+
+class PlannerTest {
+    @Test
+    public void test(){
+        Patient p1= new Patient();
         p1.createPatient("Sebastian", "Haas", LocalDate.of(2000,11,18), 18, Type.MAN);
 
         Patient p2= new Patient();
@@ -21,7 +29,8 @@ public class Planner
 
         al.add(appointment);
         al.add(appointment2);
-        al.listAppointemnts();*/
+        al.listAppointemnts();
+
     }
 
 }
