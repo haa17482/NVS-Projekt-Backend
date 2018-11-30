@@ -1,6 +1,12 @@
 package at.spengergasse.haas.pos.planner;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
+import javax.swing.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AppointmentList {
     private ArrayList<Appointment> appointments = new ArrayList<>();
@@ -10,11 +16,20 @@ public class AppointmentList {
 
         if (appointments.contains(appointment)){
             System.out.println("Appointment was added!");
-            System.out.println(appointment.toString());
-            System.out.println("-------------------------------------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------");
+
         }
             else System.out.println("Appointment couldn't be added, check parameters!");
         }
+
+    public void remove(Appointment appointment){
+        if (appointments.contains(appointment)){
+            appointments.remove(appointment);
+            System.out.println("Appointment was deleted!");
+            System.out.println("--------------------------------------------------------");
+        }
+        else System.out.println("Appointment couldn't be found!");
+    }
 
         public void listAppointemnts(){
         System.out.println("All Appointments:");
@@ -26,4 +41,58 @@ public class AppointmentList {
             }
         }
         }
+    public void listGirls(){
+        System.out.println("All Girls:");
+        for (int a=0;a<appointments.size();a++)
+        {if (appointments.get(a).getPatient().getType()==Type.GIRL)
+            System.out.println(appointments.get(a).getPatient().toString());
+            if(a== appointments.size()-1){
+                System.out.println("-------------------------------------------------------------------------------------------");
+            }
+        }
+
     }
+    public void listBoys(){
+        System.out.println("All Boys:");
+        for (int a=0;a<appointments.size();a++)
+        {if (appointments.get(a).getPatient().getType()==Type.BOY)
+            System.out.println(appointments.get(a).getPatient().toString());
+            if(a== appointments.size()-1){
+                System.out.println("-------------------------------------------------------------------------------------------");
+            }
+        }
+    }
+
+    public void listMen(){
+        System.out.println("All Men:");
+        for (int a=0;a<appointments.size();a++)
+        {if (appointments.get(a).getPatient().getType()==Type.MAN)
+            System.out.println(appointments.get(a).getPatient().toString());
+            if(a== appointments.size()-1){
+                System.out.println("-------------------------------------------------------------------------------------------");
+            }
+        }
+    }
+
+    public void listWomen(){
+        System.out.println("All Women:");
+        int x=0;
+        for (int a=0;a<appointments.size();a++)
+        {
+            if (appointments.get(a).getPatient().getType()==Type.WOMAN)
+            System.out.println(appointments.get(a).getPatient().toString());
+            else
+                x++;
+            if(a== appointments.size()-1){
+                System.out.println("-------------------------------------------------------------------------------------------");
+            }
+        }
+        if(x==0){
+            System.out.println("No Appointments for Women!");
+        }
+    }
+
+    public List getList(){
+        return Collections.unmodifiableList(appointments);
+    }
+}

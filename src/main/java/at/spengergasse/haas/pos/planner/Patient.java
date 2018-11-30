@@ -8,6 +8,7 @@ public class Patient {
     private String sirname;
     private LocalDate birthday;
     private int age;
+    private float height, weight;
     Type type;
 
     public Patient() {
@@ -15,6 +16,8 @@ public class Patient {
         this.sirname = sirname;
         this.birthday = birthday;
         this.age = age;
+        this.height = height;
+        this.weight = weight;
         this.type = type;
     }
 
@@ -58,13 +61,29 @@ public class Patient {
         this.type = type;
     }
 
+    public float getHeight() {
+        return height;
+    }
 
+    public void setHeight(float height) {
+        this.height = height;
+    }
 
-    public void createPatient(String firstname, String sirname, LocalDate birthday, int age, Type type){
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public void createPatient(String firstname, String sirname, LocalDate birthday, int age,float height,float weight, Type type){
         setFirstname(firstname);
         setSirname(sirname);
         setBirthday(birthday);
         setAge(age);
+        setHeight(height);
+        setWeight(weight);
         setType(type);
     }
 
@@ -73,7 +92,9 @@ public class Patient {
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d.MM.uuuu");
         String text = getBirthday().format(formatters);
         LocalDate parsedDate = LocalDate.parse(text, formatters);
-        return "Patient Information:\n  Firstname: "+getFirstname()+ " \n  Sirname: "+getSirname()+" \n  Birthday: "+parsedDate.format(formatters)+" \n  Age: "+getAge()+" \n  Type: "+getType();
+        return "Patient Information:\n  Firstname: "+getFirstname()+ " \n  Sirname: "
+                +getSirname()+" \n  Birthday: "+parsedDate.format(formatters)+" \n  Age: "+getAge()+
+                " \n Height: "+getHeight()+"\n Weight: "+getWeight()+"\n Type: "+getType();
 
     }
 }
