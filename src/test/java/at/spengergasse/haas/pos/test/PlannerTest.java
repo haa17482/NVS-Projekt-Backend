@@ -37,7 +37,6 @@ class PlannerTest {
         al.listBoys();
         al.listMen();
         al.listWomen();
-        //al.remove(appointment2);
         al.listAppointemnts();
 
         test.add(appointment);
@@ -46,6 +45,12 @@ class PlannerTest {
         assertEquals(al.getList(),test);
         assertEquals(appointment.getPatient(),p1);
         assertEquals(appointment2.getPatient(),p2);
+        assertEquals(p1.getType(), Type.MAN);
+        assertEquals(p2.getType(), Type.BOY);
+
+
+
+
 
 
     }

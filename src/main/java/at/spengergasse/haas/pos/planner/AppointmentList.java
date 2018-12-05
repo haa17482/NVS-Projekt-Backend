@@ -1,9 +1,6 @@
 package at.spengergasse.haas.pos.planner;
 
-import jdk.swing.interop.SwingInterOpUtils;
 
-import javax.swing.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

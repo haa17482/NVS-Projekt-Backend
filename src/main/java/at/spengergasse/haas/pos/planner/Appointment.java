@@ -55,9 +55,6 @@ public class Appointment {
         setPriority(priority);
         setDate(date);
         setPatient(patient);
-
-
-
     }
 
     @Override
