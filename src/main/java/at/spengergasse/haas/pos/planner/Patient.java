@@ -3,12 +3,13 @@ package at.spengergasse.haas.pos.planner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Patient {
+public class Patient implements Persistable<Long>{
     private String firstname;
     private String sirname;
     private LocalDate birthday;
     private int age;
     private float height, weight;
+    private Long id;
     Type type;
 
     public Patient() {
@@ -96,5 +97,20 @@ public class Patient {
                 +getSirname()+" \n  Birthday: "+parsedDate.format(formatters)+" \n  Age: "+getAge()+
                 " \n Height: "+getHeight()+"\n Weight: "+getWeight()+"\n Type: "+getType();
 
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void afterInsert(Long id) {
+        this.id=id;
+    }
+
+    @Override
+    public void afterDelete() {
+    id=null;
     }
 }
