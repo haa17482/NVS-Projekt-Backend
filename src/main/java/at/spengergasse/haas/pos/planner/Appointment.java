@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-public class Appointment {
+public class Appointment implements Persistable<Long>{
 
+    private Long id;
     private String title;
     private int priority;
     private LocalDate date;
@@ -13,6 +14,7 @@ public class Appointment {
 
 
     public Appointment() {
+        this.id = id;
         this.title = title;
         this.priority = priority;
         this.date = date;
@@ -50,7 +52,17 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public void makeAppointment(String title, int priority, LocalDate date, Patient patient){
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void makeAppointment(Long id,String title, int priority, LocalDate date, Patient patient){
+        setId(id);
         setTitle(title);
         setPriority(priority);
         setDate(date);
@@ -63,6 +75,16 @@ public class Appointment {
         String text = getDate().format(formatters);
         LocalDate parsedDate = LocalDate.parse(text, formatters);
 
-        return "Appointment Information:\n Title: "+getTitle()+ " \n Priority: "+getPriority()+" \n Date: "+parsedDate.format(formatters)+" \n Patient: "+patient.toString();
+        return "Appointment Information:\n"+getId()+"\n Title: "+getTitle()+ " \n Priority: "+getPriority()+" \n Date: "+parsedDate.format(formatters)+" \n Patient: "+patient.toString();
+    }
+
+    @Override
+    public void afterInsert(Long id ) {
+        this.title=title;
+    }
+
+    @Override
+    public void afterDelete() {
+        title=null;
     }
 }
