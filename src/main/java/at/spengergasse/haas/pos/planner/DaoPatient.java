@@ -1,18 +1,13 @@
 package at.spengergasse.haas.pos.planner;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.spengergasse.haas.pos.planner.Patient;
-
 public class DaoPatient implements Dao<Patient, Long> {
 
-    private Connection connection;
+    private final Connection connection;
 
     public DaoPatient(Connection connection) {
         this.connection = connection;
@@ -28,7 +23,7 @@ public class DaoPatient implements Dao<Patient, Long> {
             while (rs.next()) {
                 Long id = rs.getLong("id");
                 String firstname = rs.getString("firstname");
-                String lastname = rs.getString("lastname");
+                String lastname = rs.getString("sirname");
                 LocalDate birthday = rs.getObject("birthday", LocalDate.class);
                 int age = rs.getInt("age");
                 float height = rs.getFloat("height");
@@ -36,7 +31,7 @@ public class DaoPatient implements Dao<Patient, Long> {
                 var type = Type.valueOf(rs.getString("type"));
 
                 Patient r = new Patient();
-                r.createPatient(firstname,lastname,birthday,age,height,weight,type);
+                r.createPatient(firstname, lastname, birthday, age, height, weight, type);
                 r.afterInsert(id);
                 result.add(r);
             }
@@ -50,39 +45,82 @@ public class DaoPatient implements Dao<Patient, Long> {
 
     @Override
     public Patient save(Patient persistable) {
-        Patient r = new Patient();
-        if(persistable.getId()==null){
+        if (persistable.getId() == null)
+            return insert(persistable);
+        else
+            return update(persistable);
+    }
 
-        }
+    public Patient update(Patient patient) {
+        PreparedStatement statement;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * from Patient where id=");
-            while (rs.next()) {
-                Long id = rs.getLong("id");
-                String firstname = rs.getString("firstname");
-                String lastname = rs.getString("lastname");
-                LocalDate birthday = rs.getObject("birthday", LocalDate.class);
-                int age = rs.getInt("age");
-                float height = rs.getFloat("height");
-                float weight = rs.getFloat("weight");
-                var type = Type.valueOf(rs.getString("type"));
-
-
-                r.createPatient(firstname,lastname,birthday,age,height,weight,type);
-                r.afterInsert(id);
-
+            statement = connection.prepareStatement("UPDATE patient SET firstname = ?,sirname = ?,birthday = ?,age = ?,height = ?,weight = ?,type = ? where id = ?;");
+            statement.setString(1,patient.getFirstname());
+            statement.setString(2,patient.getSirname());
+            statement.setObject(3,patient.getBirthday());
+            statement.setInt(4,patient.getAge());
+            statement.setFloat(5,patient.getHeight());
+            statement.setFloat(6,patient.getWeight());
+            statement.setString(7,patient.getType().toString());
+            statement.setLong(8, patient.getId());
+            int rs = statement.executeUpdate();
+            if (rs != 1) {
+                throw new RuntimeException("Kein Update wurde gemacht");
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return r;
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return patient;
+    }
+
+    public Patient insert(Patient patient) {
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement("INSERT into patient(firstname,sirname,birthday,age,height,weight,type)VALUES(?,?,?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1,patient.getFirstname());
+            statement.setString(2,patient.getSirname());
+            statement.setObject(3,patient.getBirthday());
+            statement.setInt(4,patient.getAge());
+            statement.setFloat(5,patient.getHeight());
+            statement.setFloat(6,patient.getWeight());
+            statement.setString(7,patient.getType().toString());
+            int rs = statement.executeUpdate();
+            if (rs != 1) {
+                throw new RuntimeException("Kein Insert wurde gemacht");
+            } else {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    patient.afterInsert(generatedKeys.getLong(1));
+                    return patient;
+                } else
+                    throw new RuntimeException("Kein Key");
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public Patient delete(Patient persistable) {
-        return null;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            int rs = statement.executeUpdate("DELETE from Patient where id=" + persistable.getId());
+            if (rs == 1) {
+                persistable.afterDelete();
+                return persistable;
+            } else
+                throw new RuntimeException("Update hat nix verändert!");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     @Override
@@ -96,7 +134,7 @@ public class DaoPatient implements Dao<Patient, Long> {
             while (rs.next()) {
                 Long id = rs.getLong("id");
                 String firstname = rs.getString("firstname");
-                String lastname = rs.getString("lastname");
+                String lastname = rs.getString("sirname");
                 LocalDate birthday = rs.getObject("birthday", LocalDate.class);
                 int age = rs.getInt("age");
                 float height = rs.getFloat("height");
@@ -104,7 +142,7 @@ public class DaoPatient implements Dao<Patient, Long> {
                 var type = Type.valueOf(rs.getString("type"));
 
 
-                r.createPatient(firstname,lastname,birthday,age,height,weight,type);
+                r.createPatient(firstname, lastname, birthday, age, height, weight, type);
                 r.afterInsert(id);
 
             }

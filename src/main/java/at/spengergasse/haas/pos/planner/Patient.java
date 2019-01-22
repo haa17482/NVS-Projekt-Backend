@@ -2,6 +2,7 @@ package at.spengergasse.haas.pos.planner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Patient implements Persistable<Long>{
     private String firstname;
@@ -13,13 +14,10 @@ public class Patient implements Persistable<Long>{
     Type type;
 
     public Patient() {
-        this.firstname = firstname;
-        this.sirname = sirname;
-        this.birthday = birthday;
-        this.age = age;
-        this.height = height;
-        this.weight = weight;
-        this.type = type;
+    }
+
+    public Patient(Long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -78,6 +76,11 @@ public class Patient implements Persistable<Long>{
         this.weight = weight;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
     public void createPatient(String firstname, String sirname, LocalDate birthday, int age,float height,float weight, Type type){
         setFirstname(firstname);
         setSirname(sirname);
@@ -89,22 +92,6 @@ public class Patient implements Persistable<Long>{
     }
 
     @Override
-    public String toString() {
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d.MM.uuuu");
-        String text = getBirthday().format(formatters);
-        LocalDate parsedDate = LocalDate.parse(text, formatters);
-        return "Patient Information:\n  Firstname: "+getFirstname()+ " \n  Sirname: "
-                +getSirname()+" \n  Birthday: "+parsedDate.format(formatters)+" \n  Age: "+getAge()+
-                " \n Height: "+getHeight()+"\n Weight: "+getWeight()+"\n Type: "+getType();
-
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
     public void afterInsert(Long id) {
         this.id=id;
     }
@@ -112,5 +99,39 @@ public class Patient implements Persistable<Long>{
     @Override
     public void afterDelete() {
     id=null;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "firstname='" + firstname + '\'' +
+                ", sirname='" + sirname + '\'' +
+                ", birthday=" + birthday +
+                ", age=" + age +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", id=" + id +
+                ", type=" + type +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return age == patient.age &&
+                Float.compare(patient.height, height) == 0 &&
+                Float.compare(patient.weight, weight) == 0 &&
+                firstname.equals(patient.firstname) &&
+                sirname.equals(patient.sirname) &&
+                birthday.equals(patient.birthday) &&
+                Objects.equals(id, patient.id) &&
+                type == patient.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstname, sirname, birthday, age, height, weight, id, type);
     }
 }

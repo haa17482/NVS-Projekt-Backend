@@ -28,8 +28,8 @@ class PlannerTest {
         Appointment appointment= new Appointment();
         Appointment appointment2= new Appointment();
 
-        appointment.makeAppointment("MuscleCheck", 1, LocalDate.of(2018,12,18), p1);
-        appointment2.makeAppointment("BodyCheck", 0, LocalDate.of(2018,11,30),p2);
+        appointment.makeAppointment((long) 1,"MuscleCheck", 1, LocalDate.of(2018,12,18), p1);
+        appointment2.makeAppointment((long) 2,"BodyCheck", 0, LocalDate.of(2018,11,30),p2);
 
         al.add(appointment);
         al.add(appointment2);

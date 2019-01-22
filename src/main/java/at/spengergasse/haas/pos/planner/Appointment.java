@@ -2,6 +2,7 @@ package at.spengergasse.haas.pos.planner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 
 public class Appointment implements Persistable<Long>{
@@ -13,11 +14,10 @@ public class Appointment implements Persistable<Long>{
     Patient patient;
 
 
-    public Appointment() {
+    public Appointment(){}
+
+    public Appointment(Long id) {
         this.id = id;
-        this.title = title;
-        this.priority = priority;
-        this.date = date;
     }
 
     public String getTitle() {
@@ -69,22 +69,45 @@ public class Appointment implements Persistable<Long>{
         setPatient(patient);
     }
 
-    @Override
-    public String toString() {
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d.MM.uuuu");
-        String text = getDate().format(formatters);
-        LocalDate parsedDate = LocalDate.parse(text, formatters);
-
-        return "Appointment Information:\n"+getId()+"\n Title: "+getTitle()+ " \n Priority: "+getPriority()+" \n Date: "+parsedDate.format(formatters)+" \n Patient: "+patient.toString();
+    public void makeAppointment(String title, int priority, LocalDate date, Patient patient){
+        makeAppointment(id, title, priority, date, patient);
     }
 
     @Override
     public void afterInsert(Long id ) {
-        this.title=title;
+        this.id = id;
     }
 
     @Override
     public void afterDelete() {
-        title=null;
+        id=null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return priority == that.priority &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(patient, that.patient);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, priority, date, patient);
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", priority=" + priority +
+                ", date=" + date +
+                ", patient=" + patient +
+                '}';
     }
 }
