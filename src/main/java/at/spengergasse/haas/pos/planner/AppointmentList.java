@@ -1,14 +1,39 @@
 package at.spengergasse.haas.pos.planner;
 
 
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class AppointmentList {
-    private ArrayList<Appointment> appointments = new ArrayList<>();
+    @OneToMany
+    private List<Appointment> appointments = new ArrayList<>();
 
-    public void add(Appointment appointment){
+    public List<Appointment> getAppointments() {
+        return Collections.unmodifiableList(appointments);
+    }
+
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+    }
+
+    public void addAll(List<Appointment> appointments) {
+        appointments.addAll(appointments);
+    }
+
+    public boolean containsAppointment(Appointment appointment) {
+        return appointments.contains(appointment);
+
+    }
+
+    public void removeAppointment(Appointment appointment) {
+        appointments.remove(appointment);
+    }
+
+}
+
+    /*public void add(Appointment appointment){
         appointments.add(appointment);
 
         if (appointments.contains(appointment)){
@@ -91,5 +116,5 @@ public class AppointmentList {
 
     public List getList(){
         return Collections.unmodifiableList(appointments);
-    }
-}
+    }*/
+

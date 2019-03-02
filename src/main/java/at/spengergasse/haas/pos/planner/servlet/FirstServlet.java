@@ -1,5 +1,5 @@
 package at.spengergasse.haas.pos.planner.servlet;
-
+/*
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -12,7 +12,6 @@ public class FirstServlet extends GenericServlet implements Servlet {
         var writer = servletResponse.getWriter();
         writer.println("<html>");
         writer.println("<head>");
-
         writer.println("<body>");
         writer.println("<h1>");
         writer.println("Hello World");
@@ -23,3 +22,4 @@ public class FirstServlet extends GenericServlet implements Servlet {
         writer.println("</html>");
     }
 }
+*/

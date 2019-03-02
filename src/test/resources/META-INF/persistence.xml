@@ -1,0 +1,24 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <!-- Define persistence unit -->
+    <persistence-unit name="hif4b">
+        <class>at.spengergasse.haas.pos.planner.Patient</class>
+        <class>at.spengergasse.haas.pos.planner.Appointment</class>
+        <class>at.spengergasse.haas.pos.planner.AppointmentList</class>
+
+        <properties>
+            <!-- database connection -->
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:hif4b-database"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="drop-and-create"/>
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

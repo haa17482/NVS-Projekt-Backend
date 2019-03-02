@@ -1,19 +1,35 @@
 package at.spengergasse.haas.pos.planner;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
+@Entity
+public class Appointment {
 
-public class Appointment implements Persistable<Long>{
-
-    private Long id;
     private String title;
     private int priority;
     private LocalDate date;
+
+    @OneToOne(cascade = {CascadeType.ALL})
     Patient patient;
 
+    @Id
+    @GeneratedValue
+    private Long id;
 
+
+/*
     public Appointment(){}
 
     public Appointment(Long id) {
@@ -109,5 +125,5 @@ public class Appointment implements Persistable<Long>{
                 ", date=" + date +
                 ", patient=" + patient +
                 '}';
-    }
+    }*/
 }

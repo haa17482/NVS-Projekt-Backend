@@ -2,6 +2,8 @@ package at.spengergasse.haas.pos.planner;
 
 import org.junit.jupiter.api.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.time.LocalDate;
@@ -12,112 +14,86 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DaoPatientTest {
 
+    private static EntityManager entityManager;
     private static DaoPatient daoPatient;
-    private static Connection connection;
+    private static Patient patient;
+    private static Patient patient2;
+
     @BeforeAll
-    static void init() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:h2:mem:graph", "sa", "");
-        daoPatient = new DaoPatient(connection);
+    static void initialize() {
+        entityManager = Persistence.createEntityManagerFactory("hif4b").
+                createEntityManager();
+
+        daoPatient = new DaoPatient(entityManager);
+
+        entityManager.getTransaction().begin();
     }
 
     @BeforeEach
-    void createDatabase() throws SQLException{
-        Statement statement = connection.createStatement();
-        statement.execute("create table patient (" +
-                "id identity," +
-                "firstname varchar(50)," +
-                "sirname varchar(50)," +
-                "birthday date," +
-                "age int," +
-                "height real," +
-                "weight real," +
-                "type varchar(50));");
-    }
+    void beforeEach(){
+        patient = Patient.builder()
+                .firstname("Sebastian")
+                .sirname("Haas")
+                .birthday(LocalDate.of(2000, 11, 18))
+                .age(18)
+                .height(1.80f)
+                .weight(70f)
+                .type(Type.MAN)
+                .build();
 
-
-    @AfterEach
-    void close() throws SQLException{
-        connection.prepareStatement("DROP ALL OBJECTS").execute();
-    }
-
-    @AfterAll
-    static void end() throws SQLException{
-        connection.close();
-    }
-
-    @Test
-    void testDelete(){
-        Patient patient = new Patient();
-        patient.createPatient("Sebastian","Haas", LocalDate.of(2000,11,18),18,1.80f,73f,Type.MAN);
-        daoPatient.save(patient);
-        Patient deletedObject = daoPatient.delete(patient);
-
-        assertNull(deletedObject.getId());
+        patient2 = Patient.builder()
+                .firstname("Tobias")
+                .sirname("Furtlehner")
+                .birthday(LocalDate.of(2002, 6, 10))
+                .age(16)
+                .height(1.82f)
+                .weight(80f)
+                .type(Type.BOY)
+                .build();
     }
 
     @Test
-    void testInsert(){
-
-        Patient patient = new Patient();
-        patient.createPatient("Sebastian","Haas", LocalDate.of(2000,11,18),
-                18,1.80f,73f,Type.MAN);
-        Patient savedObject = daoPatient.save(patient);
-
-        assertNotNull(patient.getId());
-        assertEquals(patient, savedObject);
+    void findById() {
+        var savedObject = daoPatient.save(patient);
+        var actualObject = daoPatient.findById(savedObject.getId());
+        assertEquals(savedObject, actualObject);
     }
 
     @Test
-    void testUpdate(){
+    void save() {
+        var result = daoPatient.save(patient);
+        assertNotNull(result.getId());
 
-        Patient patient = new Patient();
-        patient.createPatient("Sebastian","Haas", LocalDate.of(2000,11,17),
-                18,1.80f,73f,Type.MAN);
-        Patient savedObject = daoPatient.save(patient);
+        patient.setAge(19);
+        var secondResult = daoPatient.save(patient);
 
-        Long id = savedObject.getId();
-        Patient patient2 = new Patient(id);
-        patient2.createPatient("Sebastian","Haas", LocalDate.of(2000,11,18),
-                18,1.80f,73f,Type.MAN);
-
-        Patient updated = daoPatient.update(patient2);
-
-        assertNotEquals(updated, savedObject);
-        assertEquals(LocalDate.of(2000,11,18), updated.getBirthday());
+        assertEquals(result.getId(), secondResult.getId());
     }
 
     @Test
-    void testFindById(){
-        Patient patient = new Patient();
-        patient.createPatient("Sebastian","Haas", LocalDate.of(2000,11,18),
-                18,1.80f,73f,Type.MAN);
-        Long id = daoPatient.save(patient).getId();
-
-        Patient foundObject = daoPatient.findById(id);
-
-        assertEquals(foundObject, patient);
-    }
-
-    @Test
-    void testFindAll(){
+    void findAll() {
         List<Patient> patients = new ArrayList<>();
-
-        Patient patient = new Patient();
-        patient.createPatient("Sebastian","Haas", LocalDate.of(2000,11,18),
-                18,1.80f,73f,Type.MAN);
-
-        Patient patient2 = new Patient();
-        patient2.createPatient("Sebastian","Haas", LocalDate.of(2000,11,18),
-                18,1.80f,73f,Type.MAN);
-
+        daoPatient.save(patient);
         patients.add(patient);
+
+        daoPatient.save(patient2);
         patients.add(patient2);
-        daoPatient.save(patients.get(0));
-        daoPatient.save(patients.get(1));
+        List<Patient> list = daoPatient.findAll();
 
-        List<Patient> returnedObjects = daoPatient.findAll();
+        assertEquals(patients, list);
+    }
 
-        assertEquals(returnedObjects, patients);
+    @Test
+    void delete() {
+        daoPatient.save(patient);
+        assertNotNull(patient.getId());
+
+        daoPatient.delete(patient);
+        assertNull(patient.getId());
+    }
+    @AfterAll
+    static void afterAll(){
+        entityManager.getTransaction().commit();
     }
 
 }
