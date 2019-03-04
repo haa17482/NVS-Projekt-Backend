@@ -1,4 +1,4 @@
-package at.spengergasse.haas.pos.planner;
+package persistence;
 
 public interface Persistable<PK> {
 

@@ -1,4 +1,4 @@
-package at.spengergasse.haas.pos.planner;
+package persistence;
 
 
 import java.util.List;

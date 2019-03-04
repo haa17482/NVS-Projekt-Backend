@@ -1,11 +1,10 @@
 package at.spengergasse.haas.pos.planner;
 
 import org.junit.jupiter.api.*;
+import persistence.DaoPatient;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import javax.swing.plaf.nimbus.State;
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

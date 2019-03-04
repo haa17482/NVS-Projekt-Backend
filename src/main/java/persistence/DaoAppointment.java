@@ -1,5 +1,6 @@
-package at.spengergasse.haas.pos.planner;
+package persistence;
 
+import at.spengergasse.haas.pos.planner.Appointment;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.EntityManager;

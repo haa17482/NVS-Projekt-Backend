@@ -1,16 +1,30 @@
 package at.spengergasse.haas.pos.planner;
 
 
-import javax.persistence.OneToMany;
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
+@Entity
 public class AppointmentList {
-    @OneToMany
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
 
-    public List<Appointment> getAppointments() {
+   /* public List<Appointment> getAppointments() {
         return Collections.unmodifiableList(appointments);
     }
 
@@ -24,13 +38,12 @@ public class AppointmentList {
 
     public boolean containsAppointment(Appointment appointment) {
         return appointments.contains(appointment);
-
     }
 
     public void removeAppointment(Appointment appointment) {
         appointments.remove(appointment);
     }
-
+*/
 }
 
     /*public void add(Appointment appointment){
