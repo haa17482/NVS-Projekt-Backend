@@ -24,6 +24,9 @@ public class Appointment {
     @OneToOne(cascade = {CascadeType.ALL})
     Patient patient;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private AppointmentList appointmentList;
+
     @Id
     @GeneratedValue
     private Long id;
