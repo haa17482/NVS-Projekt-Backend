@@ -19,7 +19,7 @@ import java.util.List;
 public class AppointmentList extends BasePersistable {
 
 
-    @OneToMany(mappedBy = "appointmentList",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "appointmentList",cascade = CascadeType.PERSIST)
     private List<Appointment> appointments = new ArrayList<>();
 
 }

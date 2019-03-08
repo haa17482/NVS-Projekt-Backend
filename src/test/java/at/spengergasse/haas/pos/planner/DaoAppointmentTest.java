@@ -87,7 +87,6 @@ public class DaoAppointmentTest {
         daoAppointment.save(appointment2);
         appointments.add(appointment2);
 
-
         assertEquals(appointments,daoAppointment.findAll());
     }
 
@@ -95,10 +94,6 @@ public class DaoAppointmentTest {
     void save(){
         var result= daoAppointment.save(appointment);
         assertNotNull(result.getId());
-
-        appointment.setPriority(4);
-        var secondResult= daoAppointment.save(appointment);
-        assertEquals(result.getId(),secondResult.getId());
     }
 
     @Test

@@ -29,7 +29,7 @@ class DaoPatientTest {
     }
 
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         patient = Patient.builder()
                 .firstname("Sebastian")
                 .sirname("Haas")
@@ -54,7 +54,7 @@ class DaoPatientTest {
     @Test
     void findById() {
         var savedObject = daoPatient.save(patient);
-       assertEquals(patient,daoPatient.findById(savedObject.getId()));
+        assertEquals(patient, daoPatient.findById(savedObject.getId()));
     }
 
     @Test
@@ -72,7 +72,6 @@ class DaoPatientTest {
         daoPatient.save(patient2);
         patients.add(patient2);
 
-
         assertEquals(patients, daoPatient.findAll());
     }
 
@@ -84,8 +83,9 @@ class DaoPatientTest {
         daoPatient.delete(patient);
         assertNull(patient.getId());
     }
+
     @AfterAll
-    static void afterAll(){
+    static void afterAll() {
         entityManager.getTransaction().commit();
     }
 

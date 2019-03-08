@@ -22,10 +22,10 @@ public class Appointment extends BasePersistable {
     private int priority;
     private LocalDate date;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.PERSIST})
     Patient patient;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private AppointmentList appointmentList;
 
 }
