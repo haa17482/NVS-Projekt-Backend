@@ -86,9 +86,9 @@ public class DaoAppointmentTest {
 
         daoAppointment.save(appointment2);
         appointments.add(appointment2);
-        List<Appointment> list= daoAppointment.findAll();
 
-        assertEquals(appointments,list);
+
+        assertEquals(appointments,daoAppointment.findAll());
     }
 
     @Test

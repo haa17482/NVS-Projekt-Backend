@@ -3,7 +3,7 @@ package persistence;
 
 import java.util.List;
 
-public interface Dao<P extends Persistable<PK>, PK> {
+public interface Dao<P extends BasePersistable, PK> {
 
     P findById(PK id);
 
@@ -11,5 +11,5 @@ public interface Dao<P extends Persistable<PK>, PK> {
 
     P save(P persistable);
 
-    P delete(P persistable);
+    void delete(P persistable);
 }

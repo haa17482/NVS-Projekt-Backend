@@ -1,15 +1,22 @@
 package persistence;
 
+import at.spengergasse.haas.pos.planner.Appointment;
 import at.spengergasse.haas.pos.planner.AppointmentList;
-import lombok.AllArgsConstructor;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
-@AllArgsConstructor
-public class DaoAppointmentList {
+public class DaoAppointmentList extends AbstractDao<AppointmentList, Long> {
 
-    private EntityManager entityManager;
+    public DaoAppointmentList(EntityManager entityManager) {
+        super(entityManager);
+    }
+
+    @Override
+    protected Class<AppointmentList> getPClass() {
+        return AppointmentList.class;
+    }
+
+   /* private EntityManager entityManager;
 
 
     public AppointmentList findById(Long id) {
@@ -30,6 +37,6 @@ public class DaoAppointmentList {
     public void delete(AppointmentList appointmentList){
         entityManager.remove(appointmentList);
         appointmentList.setId(null);
-    }
+    }*/
 
 }

@@ -54,19 +54,13 @@ class DaoPatientTest {
     @Test
     void findById() {
         var savedObject = daoPatient.save(patient);
-        var actualObject = daoPatient.findById(savedObject.getId());
-        assertEquals(savedObject, actualObject);
+       assertEquals(patient,daoPatient.findById(savedObject.getId()));
     }
 
     @Test
     void save() {
         var result = daoPatient.save(patient);
         assertNotNull(result.getId());
-
-        patient.setAge(19);
-        var secondResult = daoPatient.save(patient);
-
-        assertEquals(result.getId(), secondResult.getId());
     }
 
     @Test
@@ -77,9 +71,9 @@ class DaoPatientTest {
 
         daoPatient.save(patient2);
         patients.add(patient2);
-        List<Patient> list = daoPatient.findAll();
 
-        assertEquals(patients, list);
+
+        assertEquals(patients, daoPatient.findAll());
     }
 
     @Test

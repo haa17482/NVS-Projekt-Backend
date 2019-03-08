@@ -1,19 +1,26 @@
 package persistence;
 
 import at.spengergasse.haas.pos.planner.Patient;
-import lombok.AllArgsConstructor;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import javax.persistence.Parameter;
 import java.util.List;
 
-@AllArgsConstructor
-public class DaoPatient {
+public class DaoPatient extends AbstractDao<Patient, Long> {
 
-    private EntityManager entityManager;
+    public DaoPatient(EntityManager entityManager) {
+        super(entityManager);
+    }
+
+    @Override
+    protected Class<Patient> getPClass() {
+        return Patient.class;
+    }
+
+
+
+
+    /*private EntityManager entityManager;
 
     public Patient findById(Long id) {
         return entityManager.find(Patient.class, id);
@@ -38,5 +45,5 @@ public class DaoPatient {
         patient.setId(null);
     }
 
-
+*/
 }
