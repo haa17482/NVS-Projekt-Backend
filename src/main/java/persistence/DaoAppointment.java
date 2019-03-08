@@ -4,11 +4,7 @@ import at.spengergasse.haas.pos.planner.Appointment;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class DaoAppointment extends AbstractDao<Appointment,Long>{
 

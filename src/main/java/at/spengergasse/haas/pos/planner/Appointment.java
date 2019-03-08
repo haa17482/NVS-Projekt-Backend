@@ -6,6 +6,8 @@ import persistence.BasePersistable;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -27,5 +29,6 @@ public class Appointment extends BasePersistable {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private AppointmentList appointmentList;
+
 
 }

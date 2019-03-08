@@ -3,9 +3,7 @@ package at.spengergasse.haas.pos.planner;
 import lombok.*;
 import persistence.BasePersistable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -25,6 +23,7 @@ public class Patient extends BasePersistable {
     private int age;
     private float height, weight;
 
+    @Enumerated(EnumType.STRING)
     private Type type;
 
 

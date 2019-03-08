@@ -3,8 +3,7 @@ package persistence;
 import at.spengergasse.haas.pos.planner.Patient;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Parameter;
-import java.util.List;
+
 
 public class DaoPatient extends AbstractDao<Patient, Long> {
 
