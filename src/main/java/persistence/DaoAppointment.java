@@ -1,13 +1,15 @@
 package persistence;
 
-import at.spengergasse.haas.pos.planner.Appointment;
-import lombok.AllArgsConstructor;
+import at.spengergasse.haas.pos.planner.model.Appointment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 
-
+@Component
 public class DaoAppointment extends AbstractDao<Appointment,Long>{
 
+    @Autowired
     public DaoAppointment(EntityManager entityManager){
         super(entityManager);
     }
@@ -16,30 +18,6 @@ public class DaoAppointment extends AbstractDao<Appointment,Long>{
     protected Class<Appointment> getPClass() {
         return Appointment.class;
     }
-
-
-
-    /*private EntityManager entityManager;
-
-    public Appointment findById(Long id) {
-        return entityManager.find(Appointment.class, id);
-    }
-
-    public List<Appointment> findAll() {
-        return entityManager.createQuery(
-                "select a from Appointment a",
-                Appointment.class)
-                .getResultList();
-    }
-    public Appointment save(Appointment appointment){
-        entityManager.persist(appointment);
-        return appointment;
-    }
-
-    public void delete(Appointment appointment){
-        entityManager.remove(appointment);
-        appointment.setId(null);
-    }*/
 
 }
 

@@ -1,4 +1,4 @@
-package at.spengergasse.haas.pos.planner;
+package at.spengergasse.haas.pos.planner.model;
 
 import java.time.LocalDate;
 

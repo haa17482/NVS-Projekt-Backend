@@ -3,9 +3,9 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
     <!-- Define persistence unit -->
     <persistence-unit name="hif4b">
-        <class>at.spengergasse.haas.pos.planner.Patient</class>
-        <class>at.spengergasse.haas.pos.planner.Appointment</class>
-        <class>at.spengergasse.haas.pos.planner.AppointmentList</class>
+        <class>at.spengergasse.haas.pos.planner.model.Patient</class>
+        <class>at.spengergasse.haas.pos.planner.model.Appointment</class>
+        <class>at.spengergasse.haas.pos.planner.model.AppointmentList</class>
 
         <properties>
             <!-- database connection -->

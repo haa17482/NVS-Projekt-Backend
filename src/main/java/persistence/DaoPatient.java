@@ -1,12 +1,15 @@
 package persistence;
 
-import at.spengergasse.haas.pos.planner.Patient;
+import at.spengergasse.haas.pos.planner.model.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 
-
+@Component
 public class DaoPatient extends AbstractDao<Patient, Long> {
 
+    @Autowired
     public DaoPatient(EntityManager entityManager) {
         super(entityManager);
     }
@@ -16,33 +19,4 @@ public class DaoPatient extends AbstractDao<Patient, Long> {
         return Patient.class;
     }
 
-
-
-
-    /*private EntityManager entityManager;
-
-    public Patient findById(Long id) {
-        return entityManager.find(Patient.class, id);
-    }
-
-    public List<Patient> findAll() {
-
-        return entityManager.createQuery(
-                "SELECT p from Patient p",
-                Patient.class)
-                .getResultList();
-    }
-
-    public Patient save(Patient patient) {
-        entityManager.persist(patient);
-        return patient;
-    }
-
-
-    public void delete(Patient patient) {
-        entityManager.remove(patient);
-        patient.setId(null);
-    }
-
-*/
 }

@@ -1,12 +1,10 @@
-package at.spengergasse.haas.pos.planner;
+package at.spengergasse.haas.pos.planner.model;
 
 import lombok.*;
 import persistence.BasePersistable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Getter
 @Setter

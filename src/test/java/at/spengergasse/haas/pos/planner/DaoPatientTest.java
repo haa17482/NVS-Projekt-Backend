@@ -1,10 +1,14 @@
 package at.spengergasse.haas.pos.planner;
 
+import at.spengergasse.haas.pos.planner.model.Patient;
+import at.spengergasse.haas.pos.planner.model.Type;
 import org.junit.jupiter.api.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import persistence.DaoPatient;
+import persistence.JpaPrimerConfiguration;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +22,28 @@ class DaoPatientTest {
     private static Patient patient;
     private static Patient patient2;
 
-    @BeforeAll
-    static void initialize() {
-        entityManager = Persistence.createEntityManagerFactory("hif4b").
-                createEntityManager();
 
-        daoPatient = new DaoPatient(entityManager);
+    @BeforeEach
+    void initializeDao() {
+        ApplicationContext applicationContext =
+                new AnnotationConfigApplicationContext(
+                        JpaPrimerConfiguration.class
+                );
+        entityManager = applicationContext.getBean(EntityManager.class);
+        daoPatient = applicationContext.getBean(DaoPatient.class);
+    }
 
+    @BeforeEach
+    void startTransaction() {
         entityManager.getTransaction().begin();
     }
+
+    @AfterEach
+    void endTransaction() {
+        entityManager.getTransaction().commit();
+    }
+
+
 
     @BeforeEach
     void beforeEach() {
@@ -84,9 +101,5 @@ class DaoPatientTest {
         assertNull(patient.getId());
     }
 
-    @AfterAll
-    static void afterAll() {
-        entityManager.getTransaction().commit();
-    }
 
 }

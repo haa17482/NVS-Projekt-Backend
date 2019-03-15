@@ -1,9 +1,16 @@
 package at.spengergasse.haas.pos.planner;
 
+import at.spengergasse.haas.pos.planner.model.Appointment;
+import at.spengergasse.haas.pos.planner.model.Patient;
+import at.spengergasse.haas.pos.planner.model.Type;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import persistence.DaoAppointment;
+import persistence.DaoPatient;
+import persistence.JpaPrimerConfiguration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -22,15 +29,26 @@ public class DaoAppointmentTest {
     private static Patient patient;
     private static Patient patient2;
 
-    @BeforeAll
-    static void initialize() {
-        entityManager = Persistence.createEntityManagerFactory("hif4b").
-                createEntityManager();
+    @BeforeEach
+    void initializeDao() {
+        ApplicationContext applicationContext =
+                new AnnotationConfigApplicationContext(
+                        JpaPrimerConfiguration.class
+                );
+        entityManager = applicationContext.getBean(EntityManager.class);
+        daoAppointment = applicationContext.getBean(DaoAppointment.class);
+    }
 
-        daoAppointment = new DaoAppointment(entityManager);
-
+    @BeforeEach
+    void startTransaction() {
         entityManager.getTransaction().begin();
     }
+
+    @AfterEach
+    void endTransaction() {
+        entityManager.getTransaction().commit();
+    }
+
 
     @BeforeEach
     void beforeEach() {
@@ -105,8 +123,5 @@ public class DaoAppointmentTest {
         assertNull(appointment.getId());
     }
 
-    @AfterAll
-    static void afterAll(){
-        entityManager.getTransaction().commit();
-    }
+
 }

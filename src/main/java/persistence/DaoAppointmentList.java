@@ -1,12 +1,15 @@
 package persistence;
 
-import at.spengergasse.haas.pos.planner.Appointment;
-import at.spengergasse.haas.pos.planner.AppointmentList;
+import at.spengergasse.haas.pos.planner.model.AppointmentList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 
+@Component
 public class DaoAppointmentList extends AbstractDao<AppointmentList, Long> {
 
+    @Autowired
     public DaoAppointmentList(EntityManager entityManager) {
         super(entityManager);
     }

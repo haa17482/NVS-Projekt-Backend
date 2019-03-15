@@ -1,10 +1,12 @@
 package persistence;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 public abstract class AbstractDao<P extends BasePersistable, PK> implements Dao<P, PK> {
 
