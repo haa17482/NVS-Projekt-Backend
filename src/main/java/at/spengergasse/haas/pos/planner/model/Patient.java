@@ -1,7 +1,7 @@
 package at.spengergasse.haas.pos.planner.model;
 
 import lombok.*;
-import persistence.BasePersistable;
+import at.spengergasse.haas.pos.planner.persistence.BasePersistable;
 
 import javax.persistence.*;
 import java.time.LocalDate;

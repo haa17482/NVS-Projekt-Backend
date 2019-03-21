@@ -1,4 +1,4 @@
-package persistence;
+package at.spengergasse.haas.pos.planner.persistence;
 
 import at.spengergasse.haas.pos.planner.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;

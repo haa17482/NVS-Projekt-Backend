@@ -5,8 +5,7 @@ import at.spengergasse.haas.pos.planner.model.Type;
 import org.junit.jupiter.api.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import persistence.DaoPatient;
-import persistence.JpaPrimerConfiguration;
+import at.spengergasse.haas.pos.planner.persistence.DaoPatient;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -17,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DaoPatientTest {
 
-    private static EntityManager entityManager;
-    private static DaoPatient daoPatient;
-    private static Patient patient;
-    private static Patient patient2;
+    private  EntityManager entityManager;
+    private  DaoPatient daoPatient;
+    private  Patient patient;
+    private  Patient patient2;
 
 
     @BeforeEach
@@ -37,13 +36,6 @@ class DaoPatientTest {
     void startTransaction() {
         entityManager.getTransaction().begin();
     }
-
-    @AfterEach
-    void endTransaction() {
-        entityManager.getTransaction().commit();
-    }
-
-
 
     @BeforeEach
     void beforeEach() {
@@ -67,6 +59,17 @@ class DaoPatientTest {
                 .type(Type.BOY)
                 .build();
     }
+
+    @AfterEach
+    void endTransaction() {
+        entityManager.getTransaction().commit();
+    }
+
+   @AfterEach
+   void afterEach(){
+        daoPatient.delete(patient);
+        daoPatient.delete(patient2);
+   }
 
     @Test
     void findById() {

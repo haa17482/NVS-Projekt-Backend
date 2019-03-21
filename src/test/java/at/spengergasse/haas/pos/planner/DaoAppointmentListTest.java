@@ -7,12 +7,9 @@ import at.spengergasse.haas.pos.planner.model.Type;
 import org.junit.jupiter.api.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import persistence.DaoAppointmentList;
-import persistence.DaoPatient;
-import persistence.JpaPrimerConfiguration;
+import at.spengergasse.haas.pos.planner.persistence.DaoAppointmentList;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

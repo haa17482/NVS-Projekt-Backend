@@ -1,7 +1,7 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-    <!-- Define persistence unit -->
+    <!-- Define at.spengergasse.haas.pos.planner.persistence unit -->
     <persistence-unit name="hif4b">
         <class>at.spengergasse.haas.pos.planner.model.Patient</class>
         <class>at.spengergasse.haas.pos.planner.model.Appointment</class>
@@ -19,6 +19,7 @@
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.dialect" value="H2"/>
         </properties>
     </persistence-unit>
 </persistence>
