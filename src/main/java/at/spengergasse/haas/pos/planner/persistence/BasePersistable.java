@@ -12,7 +12,6 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Setter
 @Getter
-@EqualsAndHashCode
 public abstract class BasePersistable {
 
     @Id

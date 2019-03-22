@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @NoArgsConstructor (access = AccessLevel.PROTECTED)
 @AllArgsConstructor (access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = true)
