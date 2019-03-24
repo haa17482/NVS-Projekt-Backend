@@ -77,6 +77,7 @@ class DaoPatientTest {
     void findById() {
         var savedObject = daoPatient.save(patient);
         assertEquals(patient, daoPatient.findById(savedObject.getId()));
+        patient.builder().toString();
     }
 
     @Test

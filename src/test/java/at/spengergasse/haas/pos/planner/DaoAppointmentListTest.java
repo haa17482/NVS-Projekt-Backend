@@ -110,6 +110,7 @@ public class DaoAppointmentListTest {
         var savedObject = daoAppointmentList.save(appointmentAppointmentList);
         var actualObject = daoAppointmentList.findById(savedObject.getId());
         assertEquals(savedObject, actualObject);
+        appointmentAppointmentList.builder().toString();
     }
 
     @Test

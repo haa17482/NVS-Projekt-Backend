@@ -90,6 +90,8 @@ public class DaoAppointmentTest {
         var savedObject = daoAppointment.save(appointment);
         var actualObject = daoAppointment.findById(savedObject.getId());
         assertEquals(savedObject,actualObject);
+
+        appointment.builder().toString();
     }
 
     @Test
