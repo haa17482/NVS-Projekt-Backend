@@ -3,11 +3,11 @@ package at.spengergasse.haas.pos.planner;
 import at.spengergasse.haas.pos.planner.model.Appointment;
 import at.spengergasse.haas.pos.planner.model.Patient;
 import at.spengergasse.haas.pos.planner.model.Type;
+import at.spengergasse.haas.pos.planner.persistence.AppointmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import at.spengergasse.haas.pos.planner.persistence.DaoAppointment;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -16,34 +16,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DaoAppointmentTest {
+public class RepoAppointmentTest {
 
     private static EntityManager entityManager;
     private static Appointment appointment;
-    private static DaoAppointment daoAppointment;
+    private static AppointmentRepository daoAppointment;
     private static Appointment appointment2;
     private static Patient patient;
     private static Patient patient2;
-
-    @BeforeEach
-    void initializeDao() {
-        ApplicationContext applicationContext =
-                new AnnotationConfigApplicationContext(
-                        JpaPrimerConfiguration.class
-                );
-        entityManager = applicationContext.getBean(EntityManager.class);
-        daoAppointment = applicationContext.getBean(DaoAppointment.class);
-    }
-
-    @BeforeEach
-    void startTransaction() {
-        entityManager.getTransaction().begin();
-    }
-
-    @AfterEach
-    void endTransaction() {
-        entityManager.getTransaction().commit();
-    }
 
 
     @BeforeEach
@@ -85,41 +65,13 @@ public class DaoAppointmentTest {
                 .build();
     }
 
-    @Test
-    void findById(){
-        var savedObject = daoAppointment.save(appointment);
-        var actualObject = daoAppointment.findById(savedObject.getId());
-        assertEquals(savedObject,actualObject);
-
-        appointment.builder().toString();
-    }
-
-    @Test
-    void findAll(){
-        List<Appointment> appointments = new ArrayList<>();
-        daoAppointment.save(appointment);
-        appointments.add(appointment);
-
-        daoAppointment.save(appointment2);
-        appointments.add(appointment2);
-
-        assertEquals(appointments,daoAppointment.findAll());
-    }
 
     @Test
     void save(){
-        var result= daoAppointment.save(appointment);
-        assertNotNull(result.getId());
-    }
-
-    @Test
-    void delete(){
         daoAppointment.save(appointment);
         assertNotNull(appointment.getId());
-
-        daoAppointment.delete(appointment);
-        assertNull(appointment.getId());
     }
+
 
 
 }
