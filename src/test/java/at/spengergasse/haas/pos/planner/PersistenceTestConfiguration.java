@@ -15,7 +15,7 @@ public class PersistenceTestConfiguration {
     @Bean
     public DataSource dataSource() {
         var dataSource = new DriverManagerDataSource(
-                "jdbc:h2:mem:hif4b-database",
+                "jdbc:h2:mem:hif4b-database;DB_CLOSE_DELAY=-1",
                 "sa",
                 ""
         );

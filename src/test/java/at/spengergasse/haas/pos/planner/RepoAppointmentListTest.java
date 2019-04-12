@@ -6,28 +6,37 @@ import at.spengergasse.haas.pos.planner.model.Patient;
 import at.spengergasse.haas.pos.planner.model.Type;
 import at.spengergasse.haas.pos.planner.persistence.AppointmentListRepository;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = PersistenceTestConfiguration.class)
+@Transactional
 public class RepoAppointmentListTest {
 
-    private static EntityManager entityManager;
-    private static AppointmentList appointmentAppointmentList;
-    private static AppointmentList appointmentAppointmentList2;
-    private static AppointmentListRepository daoAppointmentList;
-    private  List<Appointment> al;
-    private  List<Appointment> a2;
-    private static Appointment appointment;
-    private static Appointment appointment2;
-    private static Patient patient;
-    private static Patient patient2;
+    @Autowired
+    private AppointmentListRepository appointmentListRepository;
+    private AppointmentList appointmentAppointmentList;
+    private AppointmentList appointmentAppointmentList2;
+    private List<Appointment> al;
+    private List<Appointment> al2;
+    private Appointment appointment;
+    private Appointment appointment2;
+    private List<AppointmentList> testList;
+    private Patient patient;
+    private Patient patient2;
 
 
 
@@ -71,55 +80,59 @@ public class RepoAppointmentListTest {
                 .build();
 
         al= new ArrayList<>();
-        a2= new ArrayList<>();
         al.add(appointment);
         al.add(appointment2);
-        a2.add(appointment2);
-        a2.add(appointment);
+
+        al2= new ArrayList<>();
+        al2.add(appointment);
+        al2.add(appointment2);
+
 
         appointmentAppointmentList = AppointmentList.builder()
                 .appointments(al)
                 .build();
 
         appointmentAppointmentList2 = AppointmentList.builder()
-                .appointments(a2)
+                .appointments(al2)
                 .build();
+
+        testList= new ArrayList<>();
+
     }
 
-  /*  @Test
-    void findById() {
-        var savedObject = daoAppointmentList.save(appointmentAppointmentList);
-        var actualObject = daoAppointmentList.findById(savedObject.getId());
-        assertEquals(savedObject, actualObject);
-        appointmentAppointmentList.builder().toString();
-    }
-
-    @Test
-    void findAll() {
-        List<AppointmentList> appointmentsLists = new ArrayList<>();
-        daoAppointmentList.save(appointmentAppointmentList);
-        appointmentsLists.add(appointmentAppointmentList);
-
-        daoAppointmentList.save(appointmentAppointmentList2);
-        appointmentsLists.add(appointmentAppointmentList2);
-
-        assertEquals(appointmentsLists, daoAppointmentList.findAll());
-    }
-*/
     @Test
     void save() {
-       daoAppointmentList.save(appointmentAppointmentList);
+       appointmentListRepository.save(appointmentAppointmentList);
         assertNotNull(appointmentAppointmentList.getId());
     }
 
-   /* @Test
-    void delete() {
-        daoAppointmentList.save(appointmentAppointmentList);
+    @Test
+    void findById() {
+        appointmentListRepository.save(appointmentAppointmentList);
+        assertNotNull(appointmentListRepository.findById(appointmentAppointmentList.getId()));
+    }
+
+    @Test
+    @Transactional
+    void findAll() {
+
+        testList.add(appointmentAppointmentList);
+        testList.add(appointmentAppointmentList2);
+
+        appointmentListRepository.save(appointmentAppointmentList);
+        appointmentListRepository.save(appointmentAppointmentList2);
+
+
+        assertEquals(testList, appointmentListRepository.findAll());
+    }
+
+    @Test
+    void delete(){
+        appointmentListRepository.save(appointmentAppointmentList);
         assertNotNull(appointmentAppointmentList.getId());
 
-        daoAppointmentList.delete(appointmentAppointmentList);
-        assertNull(appointmentAppointmentList.getId());
-    }*/
-
+        appointmentListRepository.delete(appointmentAppointmentList);
+        assertTrue(appointmentListRepository.findById(appointmentAppointmentList.getId()).isEmpty());
+    }
 
 }

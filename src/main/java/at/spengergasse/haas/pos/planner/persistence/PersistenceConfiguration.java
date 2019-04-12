@@ -2,6 +2,7 @@ package at.spengergasse.haas.pos.planner.persistence;
 
 import at.spengergasse.haas.pos.planner.model.ModelConfiguration;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -12,11 +13,12 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.ValidationMode;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = PersistenceConfiguration.class)
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_={@Autowired})
 public class PersistenceConfiguration {
 
     private final DataSource dataSource;
@@ -30,6 +32,7 @@ public class PersistenceConfiguration {
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         jpaVendorAdapter.setDatabase(Database.H2);
+        jpaVendorAdapter.setShowSql(true);
         jpaVendorAdapter.setGenerateDdl(true);
         return jpaVendorAdapter;
     }

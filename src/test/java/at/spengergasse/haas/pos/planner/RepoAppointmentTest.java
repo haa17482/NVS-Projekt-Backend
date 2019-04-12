@@ -5,25 +5,31 @@ import at.spengergasse.haas.pos.planner.model.Patient;
 import at.spengergasse.haas.pos.planner.model.Type;
 import at.spengergasse.haas.pos.planner.persistence.AppointmentRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = PersistenceTestConfiguration.class)
+@Transactional
 public class RepoAppointmentTest {
 
-    private static EntityManager entityManager;
-    private static Appointment appointment;
-    private static AppointmentRepository daoAppointment;
-    private static Appointment appointment2;
-    private static Patient patient;
-    private static Patient patient2;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+    private Appointment appointment;
+    private Appointment appointment2;
+    private Patient patient;
+    private Patient patient2;
 
 
     @BeforeEach
@@ -63,13 +69,43 @@ public class RepoAppointmentTest {
                 .date(LocalDate.of(2019,3,5))
                 .patient(patient2)
                 .build();
+
     }
 
 
     @Test
+
     void save(){
-        daoAppointment.save(appointment);
+        appointmentRepository.save(appointment);
         assertNotNull(appointment.getId());
+    }
+
+    @Test
+    void findById(){
+        appointmentRepository.save(appointment);
+        assertNotNull(appointmentRepository.findById(appointment.getId()));
+    }
+
+    @Test
+    @Transactional
+    void findAll(){
+        List<Appointment> appointments = new ArrayList<>();
+        appointmentRepository.save(appointment);
+        appointments.add(appointment);
+
+        appointmentRepository.save(appointment2);
+        appointments.add(appointment2);
+
+        assertEquals(appointments,appointmentRepository.findAll());
+    }
+
+    @Test
+    void delete(){
+        appointmentRepository.save(appointment);
+        assertNotNull(appointment.getId());
+
+        appointmentRepository.delete(appointment);
+        assertTrue(appointmentRepository.findById(appointment.getId()).isEmpty());
     }
 
 

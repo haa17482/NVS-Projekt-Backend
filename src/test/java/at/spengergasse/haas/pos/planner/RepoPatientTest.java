@@ -1,5 +1,6 @@
 package at.spengergasse.haas.pos.planner;
 
+import at.spengergasse.haas.pos.planner.model.Appointment;
 import at.spengergasse.haas.pos.planner.model.Patient;
 import at.spengergasse.haas.pos.planner.model.Type;
 import at.spengergasse.haas.pos.planner.persistence.PatientRepository;
@@ -12,14 +13,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = PersistenceTestConfiguration.class)
+@Transactional
 class RepoPatientTest {
 
     @Autowired
@@ -27,11 +31,11 @@ class RepoPatientTest {
 
     private Patient patient;
     private Patient patient2;
-
-
+    private List<Patient> patients;
 
     @BeforeEach
     void beforeEach() {
+        patients = new ArrayList<>();
 
 
         patient = Patient.builder()
@@ -56,15 +60,39 @@ class RepoPatientTest {
     }
 
 
-
-
-
     @Test
     void save() {
         patientRepository.save(patient);
         assertNotNull(patient.getId());
     }
 
+    @Test
+    void findById() {
+        patientRepository.save(patient);
+        assertNotNull(patientRepository.findById(patient.getId()));
+    }
+
+    @Test
+    void findAll() {
+        patients.add(patient);
+        patients.add(patient2);
+
+
+        patientRepository.save(patient);
+        patientRepository.save(patient2);
+
+
+        assertEquals(patients, patientRepository.findAll());
+    }
+
+    @Test
+    void delete(){
+        patientRepository.save(patient);
+        assertNotNull(patient.getId());
+
+        patientRepository.delete(patient);
+        assertTrue(patientRepository.findById(patient.getId()).isEmpty());
+    }
 
 
 }
