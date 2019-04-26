@@ -7,6 +7,7 @@ import at.spengergasse.haas.pos.planner.persistence.PatientRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,7 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PersistenceTestConfiguration.class)
+@SpringBootTest()
 @Transactional
 class RepoPatientTest {
 
@@ -39,6 +40,7 @@ class RepoPatientTest {
 
 
         patient = Patient.builder()
+                //.identifier("1")
                 .firstname("Sebastian")
                 .sirname("Haas")
                 .birthday(LocalDate.of(2000, 11, 18))
@@ -49,6 +51,7 @@ class RepoPatientTest {
                 .build();
 
         patient2 = Patient.builder()
+               // .identifier("2")
                 .firstname("Tobias")
                 .sirname("Furtlehner")
                 .birthday(LocalDate.of(2002, 6, 10))

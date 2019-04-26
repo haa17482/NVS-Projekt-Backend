@@ -1,10 +1,14 @@
 package at.spengergasse.haas.pos.planner.model;
 
+import at.spengergasse.haas.pos.planner.service.AppointmentDto;
 import lombok.*;
-import at.spengergasse.haas.pos.planner.persistence.BasePersistable;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Optional;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor (access = AccessLevel.PROTECTED)
@@ -13,8 +17,9 @@ import java.time.LocalDate;
 @ToString
 @Builder
 @Entity
-public class Appointment extends BasePersistable {
+public class Appointment extends AbstractPersistable<Long> {
 
+    private String identifier;
     private String title;
     private int priority;
     private LocalDate date;
@@ -24,6 +29,18 @@ public class Appointment extends BasePersistable {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private AppointmentList appointmentList;
+
+    public Appointment(AppointmentDto appointmentDto){
+        this.identifier= Optional.ofNullable(appointmentDto.getIdentifier())
+                .orElse(UUID.randomUUID().toString());
+        this.title= appointmentDto.getTitle();
+        this.priority= appointmentDto.getPriority();
+        this.date = appointmentDto.getDate();
+        this.patient= new Patient(appointmentDto.getPatient());
+       // this.appointmentList= new AppointmentList(appointmentDto.getAppointmentList());
+    }
+
+
 
 
 }

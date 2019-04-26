@@ -8,6 +8,7 @@ import at.spengergasse.haas.pos.planner.persistence.AppointmentListRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,7 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PersistenceTestConfiguration.class)
+@SpringBootTest
 @Transactional
 public class RepoAppointmentListTest {
 
@@ -45,6 +46,7 @@ public class RepoAppointmentListTest {
     void beforeEach() {
 
         patient = Patient.builder()
+                //.identifier("1")
                 .firstname("Sebastian")
                 .sirname("Haas")
                 .birthday(LocalDate.of(2000, 11, 18))
@@ -55,6 +57,7 @@ public class RepoAppointmentListTest {
                 .build();
 
         patient2 = Patient.builder()
+                //.identifier("2")
                 .firstname("Tobias")
                 .sirname("Furtlehner")
                 .birthday(LocalDate.of(2002, 6, 10))
@@ -66,6 +69,7 @@ public class RepoAppointmentListTest {
 
 
         appointment = Appointment.builder()
+                //.identifier("1")
                 .title("Bodycheck")
                 .priority(2)
                 .date(LocalDate.of(2019, 3, 3))
@@ -73,6 +77,7 @@ public class RepoAppointmentListTest {
                 .build();
 
         appointment2 = Appointment.builder()
+               // .identifier("2")
                 .title("Musclecheck")
                 .priority(1)
                 .date(LocalDate.of(2019, 3, 5))
@@ -89,10 +94,12 @@ public class RepoAppointmentListTest {
 
 
         appointmentAppointmentList = AppointmentList.builder()
+               // .identifier("1")
                 .appointments(al)
                 .build();
 
         appointmentAppointmentList2 = AppointmentList.builder()
+                //.identifier("2")
                 .appointments(al2)
                 .build();
 
