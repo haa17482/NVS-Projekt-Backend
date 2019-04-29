@@ -2,9 +2,7 @@ package at.spengergasse.haas.pos.planner.service;
 
 
 import at.spengergasse.haas.pos.planner.model.Appointment;
-import at.spengergasse.haas.pos.planner.model.Patient;
 import at.spengergasse.haas.pos.planner.persistence.AppointmentRepository;
-import at.spengergasse.haas.pos.planner.persistence.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

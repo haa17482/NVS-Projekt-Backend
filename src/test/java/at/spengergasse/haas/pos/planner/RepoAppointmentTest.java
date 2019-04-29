@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
@@ -68,7 +67,7 @@ public class RepoAppointmentTest {
                 .build();
 
         appointment2 = Appointment.builder()
-               // .identifier("2")
+               //up.identifier("2")
                 .title("Musclecheck")
                 .priority(1)
                 .date(LocalDate.of(2019,3,5))

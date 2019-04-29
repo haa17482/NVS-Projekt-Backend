@@ -1,14 +1,10 @@
 package at.spengergasse.haas.pos.planner.service;
 
 import at.spengergasse.haas.pos.planner.model.Appointment;
-import at.spengergasse.haas.pos.planner.model.AppointmentList;
-import at.spengergasse.haas.pos.planner.model.Patient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor

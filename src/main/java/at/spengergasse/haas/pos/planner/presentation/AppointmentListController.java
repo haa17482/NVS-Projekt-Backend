@@ -1,10 +1,7 @@
 package at.spengergasse.haas.pos.planner.presentation;
 
-import at.spengergasse.haas.pos.planner.model.AppointmentList;
 import at.spengergasse.haas.pos.planner.service.AppointmentListDto;
-import at.spengergasse.haas.pos.planner.service.PatientDto;
 import at.spengergasse.haas.pos.planner.service.UseCaseAppointmentListService;
-import at.spengergasse.haas.pos.planner.service.UseCasePatientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

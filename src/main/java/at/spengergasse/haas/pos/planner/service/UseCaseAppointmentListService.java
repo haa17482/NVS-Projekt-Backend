@@ -1,6 +1,5 @@
 package at.spengergasse.haas.pos.planner.service;
 
-import at.spengergasse.haas.pos.planner.model.Appointment;
 import at.spengergasse.haas.pos.planner.model.AppointmentList;
 import at.spengergasse.haas.pos.planner.persistence.AppointmentListRepository;
 import lombok.RequiredArgsConstructor;
