@@ -1,6 +1,13 @@
 package at.spengergasse.haas.presentation;
 
 import at.spengergasse.haas.pos.planner.HifPosSpringBootApplication;
+import at.spengergasse.haas.pos.planner.model.Appointment;
+import at.spengergasse.haas.pos.planner.model.Patient;
+import at.spengergasse.haas.pos.planner.model.Type;
+import at.spengergasse.haas.pos.planner.service.AppointmentDto;
+import at.spengergasse.haas.pos.planner.service.PatientDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,9 +30,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AppointmentControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
+
+    private PatientDto patient;
+    private Patient testpatient;
+    private AppointmentDto appointment;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void init() {
+        this.patient= new PatientDto(Patient.builder()
+                .firstname("Sebastian")
+                .sirname("Haas")
+                .birthday(LocalDate.of(2000,11,18))
+                .age(18)
+                .height(1.8f)
+                .weight(70)
+                .type(Type.MAN)
+                .build());
+        this.testpatient= new Patient(patient);
+
+
+        this.appointment = new AppointmentDto(Appointment.builder()
+        .title("Musclecheck")
+        .date(LocalDate.of(2019,5,3))
+        .priority(1)
+        .patient(testpatient)
+        .appointmentList(null)
+        .build());
+    }
 
     @Test
     void findAll() throws Exception {
@@ -34,22 +73,26 @@ public class AppointmentControllerTest {
     void createAppointment() throws Exception{
         mockMvc.perform(post("/appointments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(" {\n" +
-                        "            \"title\": \"Musclecheck\",\n" +
-                        "            \"priority\": 1,\n" +
-                        "            \"patient\": {\n" +
-                        "                \"firstname\": \"Basti\",\n" +
-                        "                \"sirname\": \"Haas\"\n" +
-                        "            }\n" +
-                        "        }"))
+                .content(objectMapper.writeValueAsString(appointment)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.identifier").exists());
+                .andExpect(jsonPath("$.identifier")
+                        .exists());
     }
 
-   /* @Test
+
+    @Test
     void findById() throws Exception {
-        mockMvc.perform(get("/appointments/{identifier}"))
-                .andExpect(status().isOk());
-    }*/
+        MvcResult result = mockMvc.perform(
+                post("/appointments")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(appointment))).andReturn();
+
+        AppointmentDto appointment = objectMapper.readValue(result.getResponse().getContentAsString(), AppointmentDto.class);
+
+        mockMvc.perform(get("/appointments/" + appointment.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.identifier")
+                        .value(appointment.getIdentifier()));
+    }
 
 }

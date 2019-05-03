@@ -5,34 +5,43 @@ import at.spengergasse.haas.pos.planner.service.UseCaseAppointmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-public class AppointmentController {
+public class AppointmentController extends AbstractController<AppointmentDto>{
 
     private final UseCaseAppointmentService useCaseAppointmentService;
 
     @GetMapping(path= "/appointments")
-    public List<AppointmentDto> findAll(){
-        return useCaseAppointmentService.findAllAppointments();
+    public ResponseEntity<List<AppointmentDto>> findAll(){
+        return ResponseEntity.ok(useCaseAppointmentService
+                .findAllAppointments()
+                .stream()
+                .map(this::addSelfLink)
+                .collect(Collectors.toList())
+        );
     }
 
     @PostMapping(path = "/appointments")
-    public AppointmentDto create(@RequestBody AppointmentDto appointment){
+    public ResponseEntity<AppointmentDto> create(@RequestBody AppointmentDto appointment){
         log.info("Create with: {}",appointment);
-        return useCaseAppointmentService.saveAppointment(Optional.of(appointment))
-                .orElseThrow(IllegalArgumentException::new);
+        return ResponseEntity.ok(useCaseAppointmentService
+        .saveAppointment(appointment)
+        .map(this::addSelfLink)
+        .orElseThrow(IllegalArgumentException::new));
 
     }
     @GetMapping(path = "/appointments/{identifier}")
-    public AppointmentDto findById(@PathVariable String identifier){
-
-        return useCaseAppointmentService.findAppointmentById(identifier)
-                .orElseThrow(IllegalArgumentException::new);
+    public ResponseEntity<AppointmentDto> findById(@PathVariable String identifier){
+        return ResponseEntity.of(useCaseAppointmentService
+        .findAppointmentById(identifier)
+        .map(this::addSelfLink));
     }
 }

@@ -26,9 +26,9 @@ public class UseCaseAppointmentListService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<AppointmentListDto> saveAppointmentList (Optional<AppointmentListDto>appointmentListDto)
+    public Optional<AppointmentListDto> saveAppointmentList (AppointmentListDto appointmentListDto)
     {
-        AppointmentList appointmentList = appointmentListDto.map(AppointmentList::new).get();
+        AppointmentList appointmentList = Optional.of(appointmentListDto).map(AppointmentList::new).get();
         return Optional.of(appointmentListRepository.save(appointmentList))
                 .map(AppointmentListDto::new);
     }

@@ -30,8 +30,8 @@ public class UseCasePatientService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<PatientDto> savePerson(Optional<PatientDto> personDto) {
-        Patient patient = personDto.map(Patient::new).get();
+    public Optional<PatientDto> savePerson(PatientDto patientDto) {
+        Patient patient = Optional.of(patientDto).map(Patient::new).get();
         return Optional.of(patientRepository.save(patient))
                 .map(PatientDto::new);
     }

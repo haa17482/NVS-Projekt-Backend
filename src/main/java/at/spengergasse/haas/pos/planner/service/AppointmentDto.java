@@ -1,23 +1,23 @@
 package at.spengergasse.haas.pos.planner.service;
 
 import at.spengergasse.haas.pos.planner.model.Appointment;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
-public class AppointmentDto {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class AppointmentDto extends AbstractDto{
 
-    private String identifier;
     private String title;
     private int priority;
     private LocalDate date;
     private PatientDto patient;
 
     public AppointmentDto(Appointment appointment){
-        this.identifier = appointment.getIdentifier();
+        super(appointment.getIdentifier());
         this.title = appointment.getTitle();
         this.priority = appointment.getPriority();
         this.date = appointment.getDate();

@@ -1,22 +1,22 @@
 package at.spengergasse.haas.pos.planner.service;
 
 import at.spengergasse.haas.pos.planner.model.AppointmentList;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor
-public class AppointmentListDto {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class AppointmentListDto extends AbstractDto{
 
-    private String identifier;
     private List<AppointmentDto> appointments= new ArrayList<>();
 
     public AppointmentListDto(AppointmentList appointmentList){
-        this.identifier=appointmentList.getIdentifier();
+        super(appointmentList.getIdentifier());
         this.appointments= appointmentList.getAppointments()
                 .stream()
                 .map(AppointmentDto::new)

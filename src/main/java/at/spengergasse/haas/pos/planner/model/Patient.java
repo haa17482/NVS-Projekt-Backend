@@ -18,9 +18,8 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-public class Patient extends AbstractPersistable<Long> {
+public class Patient extends AbstractModel{
 
-    private String identifier;
     private String firstname;
     private String sirname;
     private LocalDate birthday;
@@ -31,8 +30,7 @@ public class Patient extends AbstractPersistable<Long> {
     private Type type;
 
     public Patient(PatientDto patientDto) {
-        this.identifier =  Optional.ofNullable(patientDto.getIdentifier())
-                .orElse(UUID.randomUUID().toString());
+        super(patientDto);
         this.firstname = patientDto.getFirstname();
         this.sirname = patientDto.getSirname();
         this.birthday = patientDto.getBirthday();

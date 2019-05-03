@@ -21,16 +21,13 @@ import java.util.stream.Collectors;
 @ToString
 @Builder
 @Entity
-public class AppointmentList extends AbstractPersistable<Long> {
-
-    private String identifier;
+public class AppointmentList extends AbstractModel{
 
     @OneToMany(mappedBy = "appointmentList",cascade = CascadeType.PERSIST)
     private List<Appointment> appointments = new ArrayList<>();
 
     public AppointmentList(AppointmentListDto appointmentListDto){
-        this.identifier= Optional.ofNullable(appointmentListDto.getIdentifier())
-                .orElse(UUID.randomUUID().toString());
+        super(appointmentListDto);
         this.appointments = appointmentListDto.getAppointments()
                 .stream().map(Appointment::new)
                 .collect(Collectors.toList());

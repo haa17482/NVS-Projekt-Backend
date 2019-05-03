@@ -19,9 +19,8 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-public class Appointment extends AbstractPersistable<Long> {
+public class Appointment extends AbstractModel {
 
-    private String identifier;
     private String title;
     private int priority;
     private LocalDate date;
@@ -33,8 +32,7 @@ public class Appointment extends AbstractPersistable<Long> {
     private AppointmentList appointmentList;
 
     public Appointment(AppointmentDto appointmentDto){
-        this.identifier= Optional.ofNullable(appointmentDto.getIdentifier())
-                .orElse(UUID.randomUUID().toString());
+        super(appointmentDto);
         this.title= appointmentDto.getTitle();
         this.priority= appointmentDto.getPriority();
         this.date = appointmentDto.getDate();

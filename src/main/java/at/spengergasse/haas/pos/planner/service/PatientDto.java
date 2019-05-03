@@ -2,6 +2,7 @@ package at.spengergasse.haas.pos.planner.service;
 
 import at.spengergasse.haas.pos.planner.model.Patient;
 import at.spengergasse.haas.pos.planner.model.Type;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,8 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class PatientDto {
+public class PatientDto extends AbstractDto{
 
-    private String identifier;
     private String firstname;
     private String sirname;
     private LocalDate birthday;
@@ -20,7 +20,7 @@ public class PatientDto {
     private Type type;
 
     public PatientDto(Patient patient) {
-        this.identifier = patient.getIdentifier();
+        super(patient.getIdentifier());
         this.firstname = patient.getFirstname();
         this.sirname = patient.getSirname();
         this.birthday = patient.getBirthday();
