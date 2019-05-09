@@ -25,8 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -110,18 +109,23 @@ public class AppointmentListControllerTest {
                 .andExpect(jsonPath("$.identifier")
                         .value(appointmentList.getIdentifier()));
     }
-   /* @Test
-    {\n" +
-                        "    \"appointments\": [\n" +
-                        "        {\n" +
-                        "            \"title\": \"Musclecheck\",\n" +
-                        "            \"priority\": 1,\n" +
-                        "            \"patient\": {\n" +
-                        "                \"firstname\": \"Basti\",\n" +
-                        "                \"sirname\": \"Haas\"\n" +
-                        "            }\n" +
-                        "        }\n" +
-                        "    ]\n" +
-                        "}"}*/
 
+    @Test
+    void deleteTest() throws Exception {
+        MvcResult result = mockMvc.perform(
+                post("/appointmentList")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(appointmentList)))
+                .andReturn();
+
+        AppointmentListDto appointmentListDto = objectMapper.readValue(result.getResponse().getContentAsString(), AppointmentListDto.class);
+
+        mockMvc.perform(delete("/appointmentList/" + appointmentListDto.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/appointmentList/" + appointmentListDto.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNotFound());
+    }
 }

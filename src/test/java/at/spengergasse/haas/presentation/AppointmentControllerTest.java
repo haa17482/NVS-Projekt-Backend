@@ -20,8 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -93,6 +92,25 @@ public class AppointmentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.identifier")
                         .value(appointment.getIdentifier()));
+    }
+
+    @Test
+    void deleteTest() throws Exception {
+        MvcResult result = mockMvc.perform(
+                post("/appointments")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(appointment)))
+                .andReturn();
+
+        AppointmentDto appointmentDto = objectMapper.readValue(result.getResponse().getContentAsString(), AppointmentDto.class);
+
+        mockMvc.perform(delete("/appointments/" + appointmentDto.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/appointments/" + appointmentDto.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNotFound());
     }
 
 }

@@ -42,4 +42,8 @@ public class UseCaseAppointmentService {
                 findByIdentifier(identifier)
                 .map(AppointmentDto::new);
     }
+
+    public void deleteAppointmentByIdentifier(String identifier) {
+        appointmentRepository.deleteByIdentifier(identifier);
+    }
 }

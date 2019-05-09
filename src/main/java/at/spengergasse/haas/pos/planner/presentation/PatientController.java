@@ -47,4 +47,14 @@ public class PatientController extends AbstractController<PatientDto>{
         .map(this::addSelfLink));
     }
 
+    @DeleteMapping(path = "/patients/{identifier}")
+    public ResponseEntity<Void> delete(@PathVariable String identifier) {
+        log.info("Delete Patient with id: {}", identifier);
+
+        useCasePatientService.deletePatientByIdentifier(identifier);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
 }

@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointment,Long> {
     Optional<Appointment> findByIdentifier(String id);
 
+    void deleteByIdentifier(String id);
+
 }

@@ -44,4 +44,15 @@ public class AppointmentController extends AbstractController<AppointmentDto>{
         .findAppointmentById(identifier)
         .map(this::addSelfLink));
     }
+
+
+    @DeleteMapping(path = "/appointments/{identifier}")
+    public ResponseEntity<Void> delete(@PathVariable String identifier) {
+        log.info("Delete Appointment with id: {}", identifier);
+
+        useCaseAppointmentService.deleteAppointmentByIdentifier(identifier);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
 }

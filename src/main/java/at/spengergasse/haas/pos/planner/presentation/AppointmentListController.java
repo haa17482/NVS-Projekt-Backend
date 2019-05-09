@@ -43,4 +43,15 @@ public class AppointmentListController extends AbstractController<AppointmentLis
                 .findAppointmentListById(identifier)
                 .map(this::addSelfLink));
     }
+
+
+    @DeleteMapping(path = "/appointmentList/{identifier}")
+    public ResponseEntity<Void> delete(@PathVariable String identifier) {
+        log.info("Delete APList with id: {}", identifier);
+
+        useCaseAppointmentListService.deleteAPListByIdentifier(identifier);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
 }

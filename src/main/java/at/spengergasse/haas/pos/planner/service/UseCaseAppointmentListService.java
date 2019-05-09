@@ -38,4 +38,8 @@ public class UseCaseAppointmentListService {
                 findByIdentifier(identifier)
                 .map(AppointmentListDto::new);
     }
+
+    public void deleteAPListByIdentifier(String identifier) {
+        appointmentListRepository.deleteByIdentifier(identifier);
+    }
 }

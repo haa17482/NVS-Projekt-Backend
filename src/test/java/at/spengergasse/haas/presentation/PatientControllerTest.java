@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,5 +80,25 @@ class PatientControllerTest {
                .andExpect(jsonPath("$.identifier")
                .value(patient.getIdentifier()));
    }
+
+    @Test
+    void deleteTest() throws Exception {
+        MvcResult result = mockMvc.perform(
+                post("/patients")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(patient)))
+                .andReturn();
+
+        PatientDto patientDto = objectMapper.readValue(result.getResponse().getContentAsString(), PatientDto.class);
+
+        mockMvc.perform(delete("/patients/" + patientDto.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/patients/" + patientDto.getIdentifier())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNotFound());
+
+    }
 
 }

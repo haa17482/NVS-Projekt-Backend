@@ -16,6 +16,7 @@ public abstract class AbstractController <D extends AbstractDto> {
     abstract ResponseEntity<List<D>> findAll();
     abstract ResponseEntity<D> findById(@PathVariable String identifier);
     abstract ResponseEntity<D> create(@RequestBody D dto);
+    abstract ResponseEntity<Void> delete(@PathVariable String identifier);
 
     D addSelfLink(D dto) {
         Link selfLink = linkTo(methodOn(this.getClass()).findById(dto.getIdentifier())).withSelfRel();

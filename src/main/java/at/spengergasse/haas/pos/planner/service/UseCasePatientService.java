@@ -41,4 +41,8 @@ public class UseCasePatientService {
                 findByIdentifier(identifier)
                 .map(PatientDto::new);
     }
+
+    public void deletePatientByIdentifier(String identifier) {
+        patientRepository.deleteByIdentifier(identifier);
+    }
 }
